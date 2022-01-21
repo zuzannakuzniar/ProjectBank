@@ -12,13 +12,9 @@ public class CustomerService {
     @Inject
     public CustomerUtil customerUtil;
 
-    public CustomerDTO createCustomer(CustomerDTO customerDTO){
-        Customer customer = customerDTO.mapDTOToCustomer(customerDTO);
-        return Customer;
-
+    public CustomerDTO createCustomer(CustomerDTO customerDTO) {
+        return null;
     }
-
-
 
 
 }
