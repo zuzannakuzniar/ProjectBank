@@ -5,16 +5,19 @@ import datamodel.Customer;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-
+@Dependent
 public class CustomerService {
 
     @Inject
-    HibernateFactory hibernateFactory;
+    HibernateFactory hibernateFactory = new HibernateFactory();
+
+    public CustomerService() {
+    }
 
     Session session = hibernateFactory.getSessionFactory().openSession();
-
 
     public Customer createCustomer(Customer customer) {
         Transaction transaction = session.beginTransaction();

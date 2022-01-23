@@ -1,25 +1,13 @@
 package datamodel;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.List;
+import javax.persistence.*;
 
 @Entity
 public class Customer extends User{
 
-    @Id
-    @GeneratedValue
-    private Long customerId;
     private String address;
     private String phone;
-    @OneToMany
-    private List<Long> accountId;
-
-    public Long getCustomerId() {
-        return customerId;
-    }
+    private Long accountId;
 
     public String getAddress() {
         return address;
@@ -29,11 +17,11 @@ public class Customer extends User{
         return phone;
     }
 
-    public List<Long> getAccountId() {
+    public Long getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(List<Long> accountId) {
+    public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
 

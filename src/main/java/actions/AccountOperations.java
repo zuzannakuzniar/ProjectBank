@@ -18,16 +18,19 @@ public class AccountOperations {
 
     @Inject
     AccountService accountService;
-
     @Inject
     CustomerService customerService;
-
     @Inject
     EmployeeService employeeService;
-
     @Inject
     Validator validator;
 
+    public AccountOperations() {
+        this.accountService = new AccountService();
+        this.customerService = new CustomerService();
+        this.employeeService = new EmployeeService();
+        this.validator = new Validator();
+    }
 
     Scanner scanner = new Scanner(System.in);
 
@@ -59,7 +62,7 @@ public class AccountOperations {
     public void createUser() {
         System.out.println("Enter user type: Customer | Employee");
         String userType = scanner.next();
-        User user = new User();
+        User user;
         switch (userType) {
             case "Employee":
                 user = createEmployee();
@@ -68,6 +71,7 @@ public class AccountOperations {
             case "Customer":
                 user = createCustomer();
                 user.setUserType(UserType.CUSTOMER);
+                user.setId(null);
                 break;
         }
 
@@ -95,6 +99,12 @@ public class AccountOperations {
         String lastName = scanner.next();
         customer.setFirstName(lastName);
         System.out.println(lastName);
+
+        System.out.print("Enter email: ");
+        String email = scanner.next();
+        String validatedEmail = validator.validateEmail(email);
+        customer.setEmail(validatedEmail);
+        System.out.println(validatedEmail);
 
         System.out.print("Enter address: ");
         String address = scanner.next();

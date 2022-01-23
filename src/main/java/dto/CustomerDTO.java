@@ -6,7 +6,6 @@ public class CustomerDTO {
 
     private String firstName;
     private String lastName;
-    private Address address;
     private String phone;
     private String email;
     private UserType userType;
@@ -15,7 +14,6 @@ public class CustomerDTO {
     public CustomerDTO(Builder builder) {
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
-        this.address = builder.address;
         this.phone = builder.phone;
         this.email = builder.email;
         this.userType = builder.userType;
@@ -33,9 +31,6 @@ public class CustomerDTO {
         return lastName;
     }
 
-    public Address getAddress() {
-        return address;
-    }
 
     public String getPhone() {
         return phone;
@@ -52,7 +47,6 @@ public class CustomerDTO {
     public static class Builder {
         private String firstName;
         private String lastName;
-        private Address address;
         private String phone;
         private String email;
         private UserType userType;
@@ -64,11 +58,6 @@ public class CustomerDTO {
 
         public Builder lastName(String lastName) {
             this.lastName = lastName;
-            return this;
-        }
-
-        public Builder address(Address address) {
-            this.address = address;
             return this;
         }
 

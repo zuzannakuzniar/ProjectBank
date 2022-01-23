@@ -1,14 +1,23 @@
 package datamodel;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class Loan {
 
+    @Id
+    @GeneratedValue
+    private long id;
     private float percent;
     private Long accountId;
     private Long amount;
     private int months;
+
+    public long getId() {
+        return id;
+    }
 
     public float getPercent() {
         return percent;

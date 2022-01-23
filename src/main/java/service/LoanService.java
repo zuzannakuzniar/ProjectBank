@@ -5,16 +5,20 @@ import datamodel.Loan;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-
+@Dependent
 public class LoanService {
 
     @Inject
-    HibernateFactory hibernateFactory;
+    HibernateFactory hibernateFactory = new HibernateFactory();
+
+    public LoanService() {
+        this.hibernateFactory = new HibernateFactory();
+    }
 
     Session session = hibernateFactory.getSessionFactory().openSession();
-
 
     public Loan createLoan(Loan loan) {
         Transaction transaction = session.beginTransaction();
