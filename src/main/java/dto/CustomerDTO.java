@@ -1,6 +1,5 @@
 package dto;
 
-import datamodel.Address;
 import util.UserType;
 
 public class CustomerDTO {

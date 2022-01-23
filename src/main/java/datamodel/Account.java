@@ -2,15 +2,22 @@ package datamodel;
 
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 
 @Entity
 public class Account {
 
+    @Id
+    @GeneratedValue
     private Long id;
     private String number;
+    @ManyToOne
     private Long ownerId;
-    private BigDecimal balance;
+    private double balance;
+    private String accountType;
 
     public Long getId() {
         return id;
@@ -24,7 +31,7 @@ public class Account {
         return ownerId;
     }
 
-    public BigDecimal getBalance() {
+    public double getBalance() {
         return balance;
     }
 
@@ -36,7 +43,30 @@ public class Account {
         this.number = number;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", number='" + number + '\'' +
+                ", ownerId=" + ownerId +
+                ", balance=" + balance +
+                ", accountType='" + accountType + '\'' +
+                '}';
     }
 }

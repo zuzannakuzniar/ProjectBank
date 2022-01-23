@@ -1,14 +1,17 @@
 package datamodel;
 
 import javax.persistence.Entity;
-import java.math.BigDecimal;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class Employee extends User {
 
+    @Id
+    @GeneratedValue
     private Long employeeId;
     private String position;
-    private BigDecimal salary;
+    private double salary;
 
     public Long getEmployeeId() {
         return employeeId;
@@ -22,11 +25,11 @@ public class Employee extends User {
         this.position = position;
     }
 
-    public BigDecimal getSalary() {
+    public double getSalary() {
         return salary;
     }
 
-    public void setSalary(BigDecimal salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 }
