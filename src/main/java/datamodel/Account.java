@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import java.math.BigDecimal;
 
 @Entity
 public class Account {
@@ -14,7 +13,6 @@ public class Account {
     @GeneratedValue
     private Long id;
     private String number;
-    @ManyToOne
     private Long ownerId;
     private double balance;
     private String accountType;

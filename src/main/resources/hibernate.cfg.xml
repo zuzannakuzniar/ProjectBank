@@ -9,6 +9,9 @@
         <property name="hibernate.connection.password">BartekPuci2507@</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <mapping class="entity.Dog"/>
+        <mapping class="datamodel.Customer"/>
+        <mapping class="datamodel.Employee"/>
+        <mapping class="datamodel.Account"/>
+        <mapping class="datamodel.Loan"/>
     </session-factory>
 </hibernate-configuration>

@@ -5,15 +5,20 @@ import datamodel.Employee;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+@Dependent
 public class EmployeeService {
 
     @Inject
-    HibernateFactory hibernateFactory;
+    HibernateFactory hibernateFactory = new HibernateFactory();
+
+    public EmployeeService() {
+        this.hibernateFactory = new HibernateFactory();
+    }
 
     Session session = hibernateFactory.getSessionFactory().openSession();
-
 
     public Employee createEmployee(Employee employee) {
         Transaction transaction = session.beginTransaction();

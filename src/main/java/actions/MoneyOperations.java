@@ -12,12 +12,13 @@ import java.util.Scanner;
 public class MoneyOperations extends Operation {
 
     @Inject
-    HibernateFactory hibernateFactory;
-
-    @Inject
     AccountService accountService;
 
     Scanner scanner = new Scanner(System.in);
+
+    public MoneyOperations() {
+        this.accountService = new AccountService();
+    }
 
     public void getBalance() {
         System.out.println("Enter the account Id: ");
