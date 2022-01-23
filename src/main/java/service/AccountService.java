@@ -1,47 +1,46 @@
 package service;
 
 import config.HibernateFactory;
+import datamodel.Account;
 import datamodel.Customer;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.inject.Inject;
 
-
-public class CustomerService {
+public class AccountService {
 
     @Inject
     HibernateFactory hibernateFactory;
 
     Session session = hibernateFactory.getSessionFactory().openSession();
 
-
-    public Customer createCustomer(Customer customer) {
+    public Account createAccount(Account account) {
         Transaction transaction = session.beginTransaction();
-        session.save(customer);
+        session.save(account);
         transaction.commit();
         session.close();
-        return customer;
+        return account;
     }
 
-    public Customer readCustomer(long id) {
+    public Account readAccount(long id) {
         Transaction transaction = session.beginTransaction();
-        Customer customer = session.find(Customer.class, id);
+        Account account = session.find(Account.class, id);
         transaction.commit();
         session.close();
-        return customer;
+        return account;
     }
 
-    public void updateCustomer(Customer customer) {
+    public void updateAccount(Account account) {
         Transaction transaction = session.beginTransaction();
-        session.save(customer);
+        session.save(account);
         transaction.commit();
         session.close();
     }
 
-    public void deleteCustomer(Customer customer) {
+    public void deleteAccount(Account account) {
         Transaction transaction = session.beginTransaction();
-        session.delete(customer);
+        session.delete(account);
         transaction.commit();
         session.close();
     }

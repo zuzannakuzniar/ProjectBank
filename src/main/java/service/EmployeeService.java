@@ -1,14 +1,13 @@
 package service;
 
 import config.HibernateFactory;
-import datamodel.Customer;
+import datamodel.Employee;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.inject.Inject;
 
-
-public class CustomerService {
+public class EmployeeService {
 
     @Inject
     HibernateFactory hibernateFactory;
@@ -16,32 +15,33 @@ public class CustomerService {
     Session session = hibernateFactory.getSessionFactory().openSession();
 
 
-    public Customer createCustomer(Customer customer) {
+    public Employee createEmployee(Employee employee) {
         Transaction transaction = session.beginTransaction();
-        session.save(customer);
+        session.save(employee);
+        transaction.commit();
+        session.close();
+        return employee;
+    }
+
+    public Employee updateEmployee(Employee employee) {
+        Transaction transaction = session.beginTransaction();
+        session.save(employee);
+        transaction.commit();
+        session.close();
+        return employee;
+    }
+
+    public Employee readEmployee(long id) {
+        Transaction transaction = session.beginTransaction();
+        Employee customer = session.find(Employee.class, id);
         transaction.commit();
         session.close();
         return customer;
     }
 
-    public Customer readCustomer(long id) {
+    public void deleteEmployee(Employee employee) {
         Transaction transaction = session.beginTransaction();
-        Customer customer = session.find(Customer.class, id);
-        transaction.commit();
-        session.close();
-        return customer;
-    }
-
-    public void updateCustomer(Customer customer) {
-        Transaction transaction = session.beginTransaction();
-        session.save(customer);
-        transaction.commit();
-        session.close();
-    }
-
-    public void deleteCustomer(Customer customer) {
-        Transaction transaction = session.beginTransaction();
-        session.delete(customer);
+        session.delete(employee);
         transaction.commit();
         session.close();
     }

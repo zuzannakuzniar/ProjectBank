@@ -3,7 +3,7 @@ package datamodel;
 import javax.persistence.Entity;
 
 @Entity
-public class Deposit {
+public class Loan {
 
     private float percent;
     private Long accountId;
@@ -29,8 +29,11 @@ public class Deposit {
         this.amount = amount;
     }
 
-    public int getMonts() {return months;}
-    public void setMonts(int months) {
+    public int getMonths() {
+        return months;
+    }
+
+    public void setMonths(int months) {
         this.months = months;
     }
 
