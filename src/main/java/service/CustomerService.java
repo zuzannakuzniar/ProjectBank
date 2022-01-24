@@ -2,6 +2,7 @@ package service;
 
 import config.HibernateFactory;
 import datamodel.Customer;
+import datamodel.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -30,6 +31,14 @@ public class CustomerService {
     public Customer readCustomer(long id) {
         Transaction transaction = session.beginTransaction();
         Customer customer = session.find(Customer.class, id);
+        transaction.commit();
+        session.close();
+        return customer;
+    }
+
+    public Customer readCustomerByLogin(String login) {
+        Transaction transaction = session.beginTransaction();
+        Customer customer = session.byNaturalId(Customer.class).using("login", login).load();
         transaction.commit();
         session.close();
         return customer;

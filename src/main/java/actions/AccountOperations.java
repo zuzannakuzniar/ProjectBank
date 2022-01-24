@@ -4,6 +4,7 @@ import datamodel.Account;
 import datamodel.Customer;
 import datamodel.Employee;
 import datamodel.User;
+import exception.IncorrectUserDataException;
 import service.AccountService;
 import service.CustomerService;
 import service.EmployeeService;
@@ -76,6 +77,7 @@ public class AccountOperations {
         }
 
         System.out.println("User created");
+        scanner.reset();
     }
 
     private User createCustomer() {
@@ -100,24 +102,33 @@ public class AccountOperations {
         customer.setFirstName(lastName);
         System.out.println(lastName);
 
-        System.out.print("Enter email: ");
-        String email = scanner.next();
-        String validatedEmail = validator.validateEmail(email);
-        customer.setEmail(validatedEmail);
-        System.out.println(validatedEmail);
+        getAndSetEmail(customer);
 
         System.out.print("Enter address: ");
         String address = scanner.next();
         customer.setAddress(address);
         System.out.println(address);
 
-        System.out.print("Enter phone: ");
-        String phone = scanner.next();
-        customer.setPhone(phone);
-        System.out.println(phone);
+        getAndSetPhoneNumber(customer);
 
         customerService.createCustomer(customer);
         return customer;
+    }
+
+    private void getAndSetEmail(User user) {
+        System.out.print("Enter email: ");
+        String email = scanner.next();
+        String validatedEmail = validator.validateEmail(email);
+        user.setEmail(validatedEmail);
+        System.out.println(validatedEmail);
+    }
+
+    private void getAndSetPhoneNumber(Customer customer) {
+        System.out.print("Enter phone: +xx xxx-xxx-xxx");
+        String phone = scanner.next();
+        String validatedPhone = validator.validatePhone(phone);
+        customer.setPhone(validatedPhone);
+        System.out.println(validatedPhone);
     }
 
     private User createEmployee() {
@@ -142,11 +153,7 @@ public class AccountOperations {
         employee.setFirstName(lastName);
         System.out.println(lastName);
 
-        System.out.print("Enter email: ");
-        String email = scanner.next();
-        String validatedEmail = validator.validateEmail(email);
-        employee.setEmail(validatedEmail);
-        System.out.println(validatedEmail);
+        getAndSetEmail(employee);
 
         System.out.print("Enter position: ");
         String position = scanner.next();
@@ -163,6 +170,17 @@ public class AccountOperations {
         long accountId = scanner.nextLong();
         Account account = accountService.readAccount(accountId);
         System.out.println(account.toString());
+    }
+
+    public void login() {
+        System.out.println("Enter login: ");
+        try {
+            Customer customer = validator.validateLogin(scanner.next());
+            System.out.println("Enter password: ");
+            validator.validatePassword(scanner.next(), customer);
+        } catch (IncorrectUserDataException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 }
