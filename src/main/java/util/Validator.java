@@ -27,6 +27,13 @@ public class Validator {
         this.customerService = new CustomerService();
     }
 
+    /**
+     * method for validating email address
+     * if email is incorrect user gets asked for a valid one
+     *
+     * @param email email address to be validated
+     * @return validated email address
+     */
     public String validateEmail(String email) {
         Scanner scanner = new Scanner(System.in);
         String correctEmail = email;
@@ -43,6 +50,12 @@ public class Validator {
         return correctEmail;
     }
 
+    /**
+     * method for validating phone number
+     * if phone number is incorrect user gets asked for a valid one
+     * @param phone phone number to be validated
+     * @return valid phone number
+     */
     public String validatePhone(String phone) {
         Scanner scanner = new Scanner(System.in);
         String correctPhone = phone;
@@ -59,6 +72,12 @@ public class Validator {
         return correctPhone;
     }
 
+    /**
+     * method for checking if customer with given login exists in database
+     * @param login login of customer to be returned
+     * @return customer if found
+     * @throws IncorrectUserDataException
+     */
     public Customer validateLogin(String login) throws IncorrectUserDataException {
         Optional<Customer> customer = Optional.ofNullable(customerService.readCustomerByLogin(login));
         if (!customer.isPresent()) {
@@ -67,6 +86,12 @@ public class Validator {
         return customer.get();
     }
 
+    /**
+     * method for validating password of given customer
+     * @param password password to be validated
+     * @param customer customer that holds the password
+     * @throws IncorrectUserDataException
+     */
     public void validatePassword(String password, Customer customer) throws IncorrectUserDataException {
         if (customer.getPassword().equals(password)) {
             System.out.println("You are now logged in.");

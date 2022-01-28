@@ -19,6 +19,9 @@ public class MoneyOperations {
         this.accountService = new AccountService();
     }
 
+    /**
+     * method for reading account balance
+     */
     public void getBalance() {
         System.out.println("Enter the account Id: ");
         long accountId = scanner.nextLong();
@@ -26,6 +29,9 @@ public class MoneyOperations {
         System.out.println("Your account balance: " + account.getBalance());
     }
 
+    /**
+     * method for deposing money to an account
+     */
     public void depositMoney() {
         System.out.println("Enter the account Id: ");
         long accountId = scanner.nextLong();
@@ -40,6 +46,9 @@ public class MoneyOperations {
 
     }
 
+    /**
+     * method for withdrawing money from account
+     */
     public void withdrawal() {
         System.out.println("Enter the account Id: ");
         long accountId = scanner.nextLong();

@@ -41,7 +41,7 @@ public class AccountOperations {
     Scanner scanner = new Scanner(System.in);
 
     /**
-     * Opening account
+     * method for opening account
      */
     public void openAccount() {
         Account account = new Account();
@@ -68,6 +68,9 @@ public class AccountOperations {
     }
 
 
+    /**
+     * method for creating user
+     */
     public void createUser() {
         System.out.println("Enter user type: Customer | Employee");
         String userType = scanner.next();
@@ -88,6 +91,11 @@ public class AccountOperations {
         scanner.reset();
     }
 
+    /**
+     * method for creating customer
+     *
+     * @return created customer as user
+     */
     private User createCustomer() {
         Customer customer = new Customer();
         System.out.print("Enter login: ");
@@ -123,6 +131,10 @@ public class AccountOperations {
         return customer;
     }
 
+    /**
+     * method for getting and setting email
+     * @param user user that will have the email set
+     */
     private void getAndSetEmail(User user) {
         System.out.print("Enter email: ");
         String email = scanner.next();
@@ -131,6 +143,10 @@ public class AccountOperations {
         System.out.println(validatedEmail);
     }
 
+    /**
+     * method for getting and setting phone number
+     * @param customer customer that will have the number set
+     */
     private void getAndSetPhoneNumber(Customer customer) {
         System.out.print("Enter phone: +xx xxx-xxx-xxx");
         String phone = scanner.next();
@@ -139,6 +155,10 @@ public class AccountOperations {
         System.out.println(validatedPhone);
     }
 
+    /**
+     * method for creating employee
+     * @return created employee as user
+     */
     private User createEmployee() {
         Employee employee = new Employee();
         System.out.print("Enter login: ");
@@ -173,6 +193,9 @@ public class AccountOperations {
 
     }
 
+    /**
+     * method for showing account details
+     */
     public void showAccount() {
         System.out.println("Enter account Id: ");
         long accountId = scanner.nextLong();
@@ -180,6 +203,9 @@ public class AccountOperations {
         System.out.println(account.toString());
     }
 
+    /**
+     * method for loggin in
+     */
     public void login() {
         System.out.println("Enter login: ");
         try {
@@ -191,6 +217,10 @@ public class AccountOperations {
         }
     }
 
+    /**
+     * method for getting account details as .txt
+     * @param accountId id of account we want to export
+     */
     public void getAccountAsFile(long accountId) {
         try {
             File file = new File("Account" + accountId + ".txt");
@@ -206,6 +236,10 @@ public class AccountOperations {
         }
     }
 
+    /**
+     * method for generating account number
+     * @return account number
+     */
     private String generateAccountNumber() {
         Iban iban = new Iban.Builder()
                 .countryCode(CountryCode.PL)
