@@ -20,6 +20,11 @@ public class LoanService {
 
     Session session = hibernateFactory.getSessionFactory().openSession();
 
+    /**
+     * method from create loan in database
+     * @param loan loan that will be created
+     * @return created loan
+     */
     public Loan createLoan(Loan loan) {
         Transaction transaction = session.beginTransaction();
         session.save(loan);
@@ -28,6 +33,11 @@ public class LoanService {
         return loan;
     }
 
+    /**
+     * method from update loan from database
+     * @param loan
+     * @return update loan
+     */
     public Loan updateLoan(Loan loan) {
         Transaction transaction = session.beginTransaction();
         session.save(loan);
@@ -36,6 +46,11 @@ public class LoanService {
         return loan;
     }
 
+    /**
+     * method from reading loan from database
+     * @param id loan id
+     * @return loan with given id
+     */
     public Loan readLoan(long id) {
         Transaction transaction = session.beginTransaction();
         Loan customer = session.find(Loan.class, id);
@@ -44,6 +59,10 @@ public class LoanService {
         return customer;
     }
 
+    /**
+     * method for deleting loan from database
+     * @param loan loan that wil lbe deleted
+     */
     public void deleteLoan(Loan loan) {
         Transaction transaction = session.beginTransaction();
         session.delete(loan);

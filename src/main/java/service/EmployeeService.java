@@ -20,6 +20,11 @@ public class EmployeeService {
 
     Session session = hibernateFactory.getSessionFactory().openSession();
 
+    /**
+     * method for create employee in databse
+     * @param employee employee that will be created
+     * @return created employee
+     */
     public Employee createEmployee(Employee employee) {
         Transaction transaction = session.beginTransaction();
         session.save(employee);
@@ -28,6 +33,12 @@ public class EmployeeService {
         return employee;
     }
 
+
+    /**
+     * method for update employe from database
+     * @param employee
+     * @return update employe
+     */
     public Employee updateEmployee(Employee employee) {
         Transaction transaction = session.beginTransaction();
         session.save(employee);
@@ -36,6 +47,11 @@ public class EmployeeService {
         return employee;
     }
 
+    /**
+     * method for read employee from database
+     * @param id employee id
+     * @return read employe
+     */
     public Employee readEmployee(long id) {
         Transaction transaction = session.beginTransaction();
         Employee customer = session.find(Employee.class, id);
@@ -44,6 +60,10 @@ public class EmployeeService {
         return customer;
     }
 
+    /**
+     * method for delete employee from database
+     * @param employee account that will b e deleted
+     */
     public void deleteEmployee(Employee employee) {
         Transaction transaction = session.beginTransaction();
         session.delete(employee);
