@@ -15,6 +15,9 @@ public class Loan {
     private Long amount;
     private int months;
 
+    public static void setNumber(String accNumber) {
+    }
+
     public long getId() {
         return id;
     }
@@ -47,4 +50,12 @@ public class Loan {
     }
 
 
+    public void setOwnerId(Long ownerId) {
+    }
+
+    public void setLoanType(String accType) {
+    }
+
+    public void setBalance(double balance) {
+    }
 }
