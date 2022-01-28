@@ -11,12 +11,10 @@ public class Loan {
     @GeneratedValue
     private long id;
     private float percent;
-    private Long accountId;
-    private Long amount;
+    private double amount;
     private int months;
-
-    public static void setNumber(String accNumber) {
-    }
+    private long ownerId;
+    private long monthlyPayment;
 
     public long getId() {
         return id;
@@ -29,15 +27,11 @@ public class Loan {
         this.percent = percent;
     }
 
-    public long getAccountId() {
-        return accountId;
-    }
-    public void setAccountId(long accountId) {
-        this.accountId = accountId;
+    public double getAmount() {
+        return amount;
     }
 
-    public long getAmount() { return amount; }
-    public void setAmount(Long amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -49,13 +43,23 @@ public class Loan {
         this.months = months;
     }
 
-
-    public void setOwnerId(Long ownerId) {
+    public long getOwnerId() {
+        return ownerId;
     }
 
-    public void setLoanType(String accType) {
+    public void setOwnerId(long ownerId) {
+        this.ownerId = ownerId;
     }
 
-    public void setBalance(double balance) {
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getMonthlyPayment() {
+        return monthlyPayment;
+    }
+
+    public void setMonthlyPayment(long monthlyPayment) {
+        this.monthlyPayment = monthlyPayment;
     }
 }

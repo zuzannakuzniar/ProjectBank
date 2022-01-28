@@ -1,6 +1,5 @@
 package actions;
 
-import config.HibernateFactory;
 import datamodel.Account;
 
 import service.AccountService;
@@ -9,7 +8,7 @@ import javax.inject.Inject;
 
 import java.util.Scanner;
 
-public class MoneyOperations extends Operation {
+public class MoneyOperations {
 
     @Inject
     AccountService accountService;

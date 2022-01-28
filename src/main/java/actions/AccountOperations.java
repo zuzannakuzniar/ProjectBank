@@ -5,6 +5,9 @@ import datamodel.Customer;
 import datamodel.Employee;
 import datamodel.User;
 import exception.IncorrectUserDataException;
+import org.iban4j.Bic;
+import org.iban4j.CountryCode;
+import org.iban4j.Iban;
 import service.AccountService;
 import service.CustomerService;
 import service.EmployeeService;
@@ -12,6 +15,8 @@ import util.UserType;
 import util.Validator;
 
 import javax.inject.Inject;
+import java.io.*;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 
@@ -35,10 +40,13 @@ public class AccountOperations {
 
     Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Opening account
+     */
     public void openAccount() {
         Account account = new Account();
-        System.out.print("Enter Account Nr: ");
-        String accNumber = scanner.next();
+        System.out.print("Your account nr: ");
+        String accNumber = generateAccountNumber();
         account.setNumber(accNumber);
         System.out.println(accNumber);
 
@@ -47,10 +55,9 @@ public class AccountOperations {
         account.setOwnerId(ownerId);
         System.out.println(ownerId);
 
-        System.out.print("Enter Account type - Private Account or Credit Account: ");
-        String accType = scanner.next();
-        account.setAccountType(accType);
-        System.out.println(accType);
+        account.setAccountType("Private Account");
+
+        scanner.reset();
 
         System.out.print("Enter Balance: ");
         double balance = scanner.nextDouble();
@@ -59,6 +66,7 @@ public class AccountOperations {
 
         accountService.createAccount(account);
     }
+
 
     public void createUser() {
         System.out.println("Enter user type: Customer | Employee");
@@ -181,6 +189,29 @@ public class AccountOperations {
         } catch (IncorrectUserDataException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void getAccountAsFile(long accountId) {
+        try {
+            File file = new File("Account" + accountId + ".txt");
+            file.createNewFile();
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            Account account = accountService.readAccount(accountId);
+            bw.write(account.toString());
+            System.out.println("Account imported correctly.");
+
+        } catch (IOException e) {
+            System.err.format("IOException: %s%n", e);
+        }
+    }
+
+    private String generateAccountNumber() {
+        Iban iban = new Iban.Builder()
+                .countryCode(CountryCode.PL)
+                .bankCode("199")
+                .buildRandom();
+        return iban.getAccountNumber();
     }
 
 }

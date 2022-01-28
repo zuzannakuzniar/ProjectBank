@@ -8,6 +8,8 @@ import org.hibernate.Transaction;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import static config.HibernateFactory.getSessionFactory;
+
 @Dependent
 public class AccountService {
 
@@ -17,8 +19,15 @@ public class AccountService {
     public AccountService() {
     }
 
-    private Session session = hibernateFactory.getSessionFactory().openSession();
+    private Session session = getSessionFactory().openSession();
 
+
+    /**
+     * method for creating account in database
+     *
+     * @param account account that will be created
+     * @return created account
+     */
     public Account createAccount(Account account) {
         Transaction transaction = session.beginTransaction();
         session.save(account);
