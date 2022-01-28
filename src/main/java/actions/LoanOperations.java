@@ -18,6 +18,9 @@ public class LoanOperations {
     private Scanner scanner = new Scanner(System.in);
 
 
+    /**
+     * method for creating a loan
+     */
     public void getALoan() {
         Loan loan = new Loan();
         System.out.print("Enter OwnerId: ");
@@ -54,6 +57,9 @@ public class LoanOperations {
         loanService.createLoan(loan);
     }
 
+    /**
+     * method for returning loan details
+     */
     public void showloan() {
         System.out.println("Enter loan Id: ");
         long loanId = scanner.nextLong();

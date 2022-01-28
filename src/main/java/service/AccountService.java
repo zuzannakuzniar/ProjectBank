@@ -24,7 +24,6 @@ public class AccountService {
 
     /**
      * method for creating account in database
-     *
      * @param account account that will be created
      * @return created account
      */
@@ -36,6 +35,12 @@ public class AccountService {
         return account;
     }
 
+    /**
+     * method for reading account from database
+     *
+     * @param id account id
+     * @return account with given id
+     */
     public Account readAccount(long id) {
         Transaction transaction = session.beginTransaction();
         Account account = session.find(Account.class, id);
@@ -44,6 +49,10 @@ public class AccountService {
         return account;
     }
 
+    /**
+     * method for updating account in database
+     * @param account account that will be created
+     */
     public void updateAccount(Account account) {
         Transaction transaction = session.beginTransaction();
         session.save(account);
@@ -51,6 +60,10 @@ public class AccountService {
         session.close();
     }
 
+    /**
+     * method for deleting account from database
+     * @param account account that will be deleted
+     */
     public void deleteAccount(Account account) {
         Transaction transaction = session.beginTransaction();
         session.delete(account);
