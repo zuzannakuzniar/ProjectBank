@@ -3,10 +3,9 @@ package datamodel;
 import org.hibernate.annotations.NaturalId;
 import util.UserType;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class User {
@@ -21,6 +20,8 @@ public class User {
     private String lastName;
     private String email;
     private UserType userType;
+//    private Set<Account> accounts;
+//    private Set<Loan> loans;
 
     public Long getId() {
         return id;

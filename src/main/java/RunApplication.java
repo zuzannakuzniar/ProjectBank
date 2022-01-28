@@ -6,6 +6,9 @@ public class RunApplication {
 
         AccountOperations accountOperations = new AccountOperations();
 //        accountOperations.createUser();
-        accountOperations.login();
+//        accountOperations.openAccount();
+//        accountOperations.login();
+//        accountOperations.showAccount();
+        accountOperations.getAccountAsFile(1);
     }
 }

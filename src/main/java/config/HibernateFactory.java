@@ -8,7 +8,8 @@ import org.hibernate.cfg.Configuration;
 
 public class HibernateFactory {
 
-    public SessionFactory getSessionFactory() {
+
+    public static SessionFactory getSessionFactory() {
         Configuration configuration = new Configuration().configure();
         configuration.configure("hibernate.cfg.xml");
         configuration.addAnnotatedClass(Customer.class);
@@ -18,8 +19,6 @@ public class HibernateFactory {
         configuration.addAnnotatedClass(Loan.class);
         StandardServiceRegistryBuilder registryBuilder =
                 new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-        SessionFactory sessionFactory = configuration.buildSessionFactory(registryBuilder.build());
-
-        return sessionFactory;
+        return configuration.buildSessionFactory(registryBuilder.build());
     }
 }

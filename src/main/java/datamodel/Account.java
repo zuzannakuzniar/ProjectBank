@@ -1,10 +1,7 @@
 package datamodel;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class Account {
@@ -59,12 +56,11 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", number='" + number + '\'' +
-                ", ownerId=" + ownerId +
-                ", balance=" + balance +
-                ", accountType='" + accountType + '\'' +
-                '}';
+        return "Your account: " +
+                "\n id=" + id +
+                "\n number='" + number +
+                "\n ownerId=" + ownerId +
+                "\n balance=" + balance +
+                "\n accountType='" + accountType;
     }
 }
