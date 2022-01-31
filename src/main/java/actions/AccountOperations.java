@@ -246,7 +246,7 @@ public class AccountOperations implements CreateOperations {
         System.out.println("Enter accountId: ");
         long accountId = scanner.nextLong();
         try {
-            File file = new File("Account" + accountId + "_" + LocalDateTime.now() + ".txt");
+            File file = new File("Account" + accountId + ".txt");
             file.createNewFile();
             FileWriter fw = new FileWriter(file);
             Account account = accountService.readAccount(accountId);
