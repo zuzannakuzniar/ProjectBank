@@ -6,28 +6,26 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
 
-import static config.HibernateFactory.getSessionFactory;
+import static config.HibernateFactory.getSession;
 
 @Dependent
 public class AccountService {
 
-    @Inject
-    HibernateFactory hibernateFactory = new HibernateFactory();
-
     public AccountService() {
     }
 
-    private Session session = getSessionFactory().openSession();
+    private Session session = getSession();
 
 
     /**
      * method for creating account in database
+     *
      * @param account account that will be created
      * @return created account
      */
     public Account createAccount(Account account) {
+        this.session = getSession();
         Transaction transaction = session.beginTransaction();
         session.save(account);
         transaction.commit();
@@ -51,9 +49,11 @@ public class AccountService {
 
     /**
      * method for updating account in database
+     *
      * @param account account that will be created
      */
     public void updateAccount(Account account) {
+        session = getSession();
         Transaction transaction = session.beginTransaction();
         session.save(account);
         transaction.commit();
@@ -62,6 +62,7 @@ public class AccountService {
 
     /**
      * method for deleting account from database
+     *
      * @param account account that will be deleted
      */
     public void deleteAccount(Account account) {

@@ -6,26 +6,24 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
+
+import static config.HibernateFactory.getSession;
 
 @Dependent
 public class LoanService {
 
-    @Inject
-    HibernateFactory hibernateFactory = new HibernateFactory();
-
     public LoanService() {
-        this.hibernateFactory = new HibernateFactory();
     }
 
-    Session session = hibernateFactory.getSessionFactory().openSession();
+    Session session = getSession();
 
     /**
-     * method from create loan in database
+     * method for creating loan in database
      * @param loan loan that will be created
      * @return created loan
      */
     public Loan createLoan(Loan loan) {
+        session = getSession();
         Transaction transaction = session.beginTransaction();
         session.save(loan);
         transaction.commit();
@@ -34,9 +32,9 @@ public class LoanService {
     }
 
     /**
-     * method from update loan from database
-     * @param loan
-     * @return update loan
+     * method for updating loan from database
+     * @param loan loan to update
+     * @return updated loan
      */
     public Loan updateLoan(Loan loan) {
         Transaction transaction = session.beginTransaction();
@@ -47,7 +45,7 @@ public class LoanService {
     }
 
     /**
-     * method from reading loan from database
+     * method for reading loan from database
      * @param id loan id
      * @return loan with given id
      */

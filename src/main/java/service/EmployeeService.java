@@ -1,27 +1,17 @@
 package service;
 
-import config.HibernateFactory;
 import datamodel.Employee;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
+import static config.HibernateFactory.getSession;
 
-@Dependent
 public class EmployeeService {
 
-    @Inject
-    HibernateFactory hibernateFactory = new HibernateFactory();
-
-    public EmployeeService() {
-        this.hibernateFactory = new HibernateFactory();
-    }
-
-    Session session = hibernateFactory.getSessionFactory().openSession();
+    Session session = getSession();
 
     /**
-     * method for create employee in databse
+     * method for creating employee in databse
      * @param employee employee that will be created
      * @return created employee
      */
@@ -35,9 +25,9 @@ public class EmployeeService {
 
 
     /**
-     * method for update employe from database
-     * @param employee
-     * @return update employe
+     * method for updating employee from database
+     * @param employee employee to update
+     * @return update employee
      */
     public Employee updateEmployee(Employee employee) {
         Transaction transaction = session.beginTransaction();
@@ -48,7 +38,7 @@ public class EmployeeService {
     }
 
     /**
-     * method for read employee from database
+     * method for reading employee from database
      * @param id employee id
      * @return read employe
      */
@@ -61,7 +51,7 @@ public class EmployeeService {
     }
 
     /**
-     * method for delete employee from database
+     * method for deleting employee from database
      * @param employee account that will b e deleted
      */
     public void deleteEmployee(Employee employee) {

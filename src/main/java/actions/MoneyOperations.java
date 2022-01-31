@@ -4,13 +4,11 @@ import datamodel.Account;
 
 import service.AccountService;
 
-import javax.inject.Inject;
 
 import java.util.Scanner;
 
 public class MoneyOperations {
 
-    @Inject
     AccountService accountService;
 
     Scanner scanner = new Scanner(System.in);
@@ -57,11 +55,11 @@ public class MoneyOperations {
         Account account = accountService.readAccount(accountId);
         if (account.getBalance() >= subtractMoney) {
             double balance = account.getBalance() - subtractMoney;
-            System.out.println("Balance after withdrawal: " + balance);
             account.setBalance(balance);
             accountService.updateAccount(account);
+            System.out.println("Balance after withdrawal: " + balance);
         } else {
-            System.out.println("Your balance is less than " + subtractMoney + "\tTransaction failed...!!");
+            System.out.println("Your balance is less than " + subtractMoney);
         }
     }
 
