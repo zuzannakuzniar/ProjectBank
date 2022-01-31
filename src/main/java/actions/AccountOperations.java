@@ -5,7 +5,6 @@ import datamodel.Customer;
 import datamodel.Employee;
 import datamodel.User;
 import exception.IncorrectUserDataException;
-import org.iban4j.Bic;
 import org.iban4j.CountryCode;
 import org.iban4j.Iban;
 import service.AccountService;
@@ -14,21 +13,17 @@ import service.EmployeeService;
 import util.UserType;
 import util.Validator;
 
-import javax.inject.Inject;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
+import static java.util.Objects.nonNull;
 
-public class AccountOperations {
+public class AccountOperations implements CreateOperations {
 
-    @Inject
     AccountService accountService;
-    @Inject
     CustomerService customerService;
-    @Inject
     EmployeeService employeeService;
-    @Inject
     Validator validator;
 
     public AccountOperations() {
@@ -43,7 +38,7 @@ public class AccountOperations {
     /**
      * method for opening account
      */
-    public void openAccount() {
+    public void create() {
         Account account = new Account();
         System.out.print("Your account nr: ");
         String accNumber = generateAccountNumber();
@@ -51,13 +46,11 @@ public class AccountOperations {
         System.out.println(accNumber);
 
         System.out.print("Enter OwnerId: ");
-        Long ownerId = scanner.nextLong();
-        account.setOwnerId(ownerId);
+        long ownerId = scanner.nextLong();
+        account.setOwner(customerService.readCustomer(ownerId));
         System.out.println(ownerId);
 
         account.setAccountType("Private Account");
-
-        scanner.reset();
 
         System.out.print("Enter Balance: ");
         double balance = scanner.nextDouble();
@@ -75,16 +68,11 @@ public class AccountOperations {
         System.out.println("Enter user type: Customer | Employee");
         String userType = scanner.next();
         User user;
-        switch (userType) {
-            case "Employee":
-                user = createEmployee();
-                user.setUserType(UserType.EMPLOYEE);
-                break;
-            case "Customer":
-                user = createCustomer();
-                user.setUserType(UserType.CUSTOMER);
-                user.setId(null);
-                break;
+        if (userType.equalsIgnoreCase("Employee")) {
+            user = createEmployee();
+        }
+        if (userType.equalsIgnoreCase("Customer")) {
+            user = createCustomer();
         }
 
         System.out.println("User created");
@@ -93,13 +81,13 @@ public class AccountOperations {
 
     /**
      * method for creating customer
-     *
      * @return created customer as user
      */
     private User createCustomer() {
         Customer customer = new Customer();
+
         System.out.print("Enter login: ");
-        String login = scanner.next();
+        String login = getLogin();
         customer.setLogin(login);
         System.out.println(login);
 
@@ -115,48 +103,71 @@ public class AccountOperations {
 
         System.out.print("Enter lastName: ");
         String lastName = scanner.next();
-        customer.setFirstName(lastName);
+        customer.setLastName(lastName);
         System.out.println(lastName);
 
-        getAndSetEmail(customer);
+        String email = getEmail();
+        customer.setEmail(email);
+        System.out.println(email);
 
         System.out.print("Enter address: ");
         String address = scanner.next();
         customer.setAddress(address);
         System.out.println(address);
 
-        getAndSetPhoneNumber(customer);
+        System.out.print("Enter phone: +xx xxx-xxx-xxx");
+        String phone = scanner.next();
+        String validatePhone = validator.validatePhone(phone);
+        customer.setPhone(validatePhone);
+        System.out.println(validatePhone);
 
+        customer.setUserType(UserType.CUSTOMER);
         customerService.createCustomer(customer);
         return customer;
     }
 
     /**
-     * method for getting and setting email
-     * @param user user that will have the email set
+     * method for getting login and checking if it's taken
+     *
+     * @return login that can be saved into database
      */
-    private void getAndSetEmail(User user) {
-        System.out.print("Enter email: ");
-        String email = scanner.next();
-        String validatedEmail = validator.validateEmail(email);
-        user.setEmail(validatedEmail);
-        System.out.println(validatedEmail);
+    private String getLogin() {
+        String login = scanner.next();
+        boolean taken = isLoginTaken(login);
+        do {
+            if (taken) {
+                System.out.println("Login is taken. Try again.");
+                login = scanner.next();
+            } else {
+                taken = false;
+            }
+        } while (taken);
+        return login;
     }
 
     /**
-     * method for getting and setting phone number
-     * @param customer customer that will have the number set
+     * method for checking if login is taken
+     *
+     * @param login login that will be checked
+     * @return true if login is taken, false if it's not
      */
-    private void getAndSetPhoneNumber(Customer customer) {
-        System.out.print("Enter phone: +xx xxx-xxx-xxx");
-        String phone = scanner.next();
-        String validatedPhone = validator.validatePhone(phone);
-        customer.setPhone(validatedPhone);
-        System.out.println(validatedPhone);
+    private boolean isLoginTaken(String login) {
+        return nonNull(customerService.readCustomerByLogin(login));
+    }
+
+    /**
+     * method for getting email
+     */
+    private String getEmail() {
+        System.out.print("Enter email: ");
+        String email = scanner.next();
+        String validatedEmail = validator.validateEmail(email);
+        return validatedEmail;
     }
 
     /**
      * method for creating employee
+     *
      * @return created employee as user
      */
     private User createEmployee() {
@@ -178,15 +189,26 @@ public class AccountOperations {
 
         System.out.print("Enter lastName: ");
         String lastName = scanner.next();
-        employee.setFirstName(lastName);
+        employee.setLastName(lastName);
         System.out.println(lastName);
 
-        getAndSetEmail(employee);
+        String email = getEmail();
+        employee.setEmail(email);
+        System.out.println(email);
 
         System.out.print("Enter position: ");
         String position = scanner.next();
         employee.setPosition(position);
         System.out.println(position);
+
+        Scanner reset = scanner.reset();
+
+        System.out.print("Enter salary: ");
+        double salary = reset.nextDouble();
+        employee.setSalary(salary);
+        System.out.println(salary);
+
+        employee.setUserType(UserType.EMPLOYEE);
 
         employeeService.createEmployee(employee);
         return employee;
@@ -219,16 +241,17 @@ public class AccountOperations {
 
     /**
      * method for getting account details as .txt
-     * @param accountId id of account we want to export
      */
-    public void getAccountAsFile(long accountId) {
+    public void getAccountAsFile() {
+        System.out.println("Enter accountId: ");
+        long accountId = scanner.nextLong();
         try {
-            File file = new File("Account" + accountId + ".txt");
+            File file = new File("Account" + accountId + "_" + LocalDateTime.now() + ".txt");
             file.createNewFile();
             FileWriter fw = new FileWriter(file);
-            BufferedWriter bw = new BufferedWriter(fw);
             Account account = accountService.readAccount(accountId);
-            bw.write(account.toString());
+            fw.write(account.toString());
+            fw.close();
             System.out.println("Account imported correctly.");
 
         } catch (IOException e) {
@@ -238,6 +261,7 @@ public class AccountOperations {
 
     /**
      * method for generating account number
+     *
      * @return account number
      */
     private String generateAccountNumber() {

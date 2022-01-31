@@ -4,8 +4,7 @@ import org.hibernate.annotations.NaturalId;
 import util.UserType;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
+
 
 @Entity
 public class User {
@@ -20,8 +19,10 @@ public class User {
     private String lastName;
     private String email;
     private UserType userType;
-//    private Set<Account> accounts;
-//    private Set<Loan> loans;
+    @OneToOne
+    private Account account;
+    @OneToOne
+    private Loan loan;
 
     public Long getId() {
         return id;
@@ -77,5 +78,31 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Loan getLoan() {
+        return loan;
+    }
+
+    public void setLoan(Loan loan) {
+        this.loan = loan;
+    }
+
+    @Override
+    public String toString() {
+        return "User: " +
+                "\nid= " + id +
+                "\nlogin= " + login +
+                "\nfirstName= " + firstName +
+                "\nlastName= " + lastName +
+                "\nuserType= " + userType;
     }
 }

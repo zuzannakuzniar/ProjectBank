@@ -76,7 +76,7 @@ public class Validator {
      * method for checking if customer with given login exists in database
      * @param login login of customer to be returned
      * @return customer if found
-     * @throws IncorrectUserDataException
+     * @throws IncorrectUserDataException throws exception when userdata is incorrect
      */
     public Customer validateLogin(String login) throws IncorrectUserDataException {
         Optional<Customer> customer = Optional.ofNullable(customerService.readCustomerByLogin(login));
@@ -90,7 +90,7 @@ public class Validator {
      * method for validating password of given customer
      * @param password password to be validated
      * @param customer customer that holds the password
-     * @throws IncorrectUserDataException
+     * @throws IncorrectUserDataException throws exception when userdata is incorrect
      */
     public void validatePassword(String password, Customer customer) throws IncorrectUserDataException {
         if (customer.getPassword().equals(password)) {

@@ -1,18 +1,22 @@
 package actions;
 
 import datamodel.Loan;
+import service.CustomerService;
 import service.LoanService;
 
-import javax.inject.Inject;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Scanner;
 
-public class LoanOperations {
+public class LoanOperations implements CreateOperations {
 
-    @Inject
     LoanService loanService;
+
+    CustomerService customerService;
 
     public LoanOperations() {
         this.loanService = new LoanService();
+        this.customerService = new CustomerService();
     }
 
     private Scanner scanner = new Scanner(System.in);
@@ -21,20 +25,20 @@ public class LoanOperations {
     /**
      * method for creating a loan
      */
-    public void getALoan() {
+    public void create() {
         Loan loan = new Loan();
         System.out.print("Enter OwnerId: ");
         Long ownerId = scanner.nextLong();
-        loan.setOwnerId(ownerId);
+        loan.setOwner(customerService.readCustomer(ownerId));
         System.out.println(ownerId);
 
         System.out.print("Enter amount: ");
         double amount = scanner.nextDouble();
         loan.setAmount(amount);
         System.out.println(amount);
-        int months = scanner.nextInt();
 
         System.out.println("How many months? 12, 24, 30");
+        int months = scanner.nextInt();
         loan.setMonths(months);
         switch (months) {
             case 12:
@@ -51,8 +55,10 @@ public class LoanOperations {
         }
 
 
-        System.out.println("Percent for " + loan.getAmount() + " is " + loan.getPercent());
-        System.out.println("Your monthly payment equals :" + loan.getAmount() / loan.getMonths());
+        System.out.println("Percent for " + loan.getAmount() + " is " + loan.getPercent() + "%.");
+        double monthlyPayment = round(loan.getAmount() / loan.getMonths(), 2);
+        loan.setMonthlyPayment(monthlyPayment);
+        System.out.println("Your monthly payment equals :" + monthlyPayment);
 
         loanService.createLoan(loan);
     }
@@ -60,10 +66,18 @@ public class LoanOperations {
     /**
      * method for returning loan details
      */
-    public void showloan() {
+    public void showLoan() {
         System.out.println("Enter loan Id: ");
         long loanId = scanner.nextLong();
         Loan loan = loanService.readLoan(loanId);
         System.out.println(loan.toString());
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

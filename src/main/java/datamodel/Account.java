@@ -1,6 +1,8 @@
 package datamodel;
 
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,7 +12,9 @@ public class Account {
     @GeneratedValue
     private Long id;
     private String number;
-    private Long ownerId;
+    @OneToOne
+    @NotNull
+    private Customer owner;
     private double balance;
     private String accountType;
 
@@ -20,10 +24,6 @@ public class Account {
 
     public String getNumber() {
         return number;
-    }
-
-    public Long getOwnerId() {
-        return ownerId;
     }
 
     public double getBalance() {
@@ -42,10 +42,6 @@ public class Account {
         this.balance = balance;
     }
 
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
-    }
-
     public String getAccountType() {
         return accountType;
     }
@@ -54,13 +50,21 @@ public class Account {
         this.accountType = accountType;
     }
 
+    public Customer getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Customer owner) {
+        this.owner = owner;
+    }
+
     @Override
     public String toString() {
         return "Your account: " +
-                "\n id=" + id +
-                "\n number='" + number +
-                "\n ownerId=" + ownerId +
-                "\n balance=" + balance +
-                "\n accountType='" + accountType;
+                "\n id= " + id +
+                "\n number= " + number +
+                "\n owner= {" + owner.getId() +
+                "}\n balance= " + balance +
+                "\n accountType= " + accountType;
     }
 }

@@ -7,7 +7,6 @@ public class Customer extends User{
 
     private String address;
     private String phone;
-    private Long accountId;
 
     public String getAddress() {
         return address;
@@ -15,14 +14,6 @@ public class Customer extends User{
 
     public String getPhone() {
         return phone;
-    }
-
-    public Long getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
     }
 
     public void setAddress(String address) {

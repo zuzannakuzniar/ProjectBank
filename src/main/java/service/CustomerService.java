@@ -1,31 +1,22 @@
 package service;
 
-import config.HibernateFactory;
 import datamodel.Customer;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
+import static config.HibernateFactory.getSession;
 
-@Dependent
 public class CustomerService {
 
-    @Inject
-    HibernateFactory hibernateFactory = new HibernateFactory();
-
-    public CustomerService() {
-    }
-
-    Session session = hibernateFactory.getSessionFactory().openSession();
+    Session session = getSession();
 
     /**
      * method for creating customer in database
-     *
      * @param customer customer to create
      * @return created customer
      */
     public Customer createCustomer(Customer customer) {
+        this.session = getSession();
         Transaction transaction = session.beginTransaction();
         session.save(customer);
         transaction.commit();

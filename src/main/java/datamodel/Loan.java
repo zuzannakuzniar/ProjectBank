@@ -3,6 +3,7 @@ package datamodel;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Loan {
@@ -13,8 +14,9 @@ public class Loan {
     private float percent;
     private double amount;
     private int months;
-    private long ownerId;
-    private long monthlyPayment;
+    @OneToOne
+    private Customer owner;
+    private double monthlyPayment;
 
     public long getId() {
         return id;
@@ -43,23 +45,34 @@ public class Loan {
         this.months = months;
     }
 
-    public long getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(long ownerId) {
-        this.ownerId = ownerId;
-    }
-
     public void setId(long id) {
         this.id = id;
     }
 
-    public long getMonthlyPayment() {
+    public double getMonthlyPayment() {
         return monthlyPayment;
     }
 
-    public void setMonthlyPayment(long monthlyPayment) {
+    public void setMonthlyPayment(double monthlyPayment) {
         this.monthlyPayment = monthlyPayment;
+    }
+
+    public Customer getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Customer owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "Loan" +
+                "\n id= " + id +
+                "\n percent= " + percent +
+                "\n amount= " + amount +
+                "\n months= " + months +
+                "\n owner= {" + owner.getId() +
+                "}\n monthlyPayment= " + monthlyPayment;
     }
 }
